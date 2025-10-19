@@ -8,6 +8,8 @@ interface Props {
     setIndustryFilter: (val: string) => void; 
     locations: string[];
     industries: string[];
+    sortOrder: string;
+    setSortOrder: (val: string) => void;
 }
 
 export const Filters = ({
@@ -19,6 +21,8 @@ export const Filters = ({
     setIndustryFilter,
     locations,
     industries,
+    sortOrder,
+    setSortOrder
   }: Props) => {
 
 
@@ -51,6 +55,15 @@ export const Filters = ({
                 {industries.map(ind => (
                     <option key={ind} value={ind}>{ind}</option>
                 ))}
+            </select>
+            <select
+                className="border border-gray-400 px-6 py-2 rounded-md focus:outline-none" 
+                value={sortOrder}
+                onChange={e => setSortOrder(e.target.value)}
+            >
+                <option value="">Sort By</option>
+                <option value="ASC">Name A-Z</option>
+                <option value="DESC">Name Z-A</option>
             </select>
         </div>
     )

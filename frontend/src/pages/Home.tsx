@@ -23,6 +23,7 @@ export const Home = () => {
     const [search, setSearch] = useState('');
     const [locationFilter, setLocationFilter] = useState('');
     const [industryFilter, setIndustryFilter] = useState('');
+    const [sortOrder, setSortOrder] = useState('');
 
     const [page, setPage] = useState(1);
     const itemsPerPage = 12;
@@ -45,7 +46,7 @@ export const Home = () => {
     }, [])
 
     useEffect(() => {
-        let temp = companies;
+        let temp = [...companies];
         if(search) {
             temp = temp.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
         }
@@ -55,10 +56,15 @@ export const Home = () => {
         if (industryFilter) {
             temp = temp.filter(c => c.industry === industryFilter);
         }
+        if (sortOrder === 'ASC') {
+            temp.sort((a, b) => a.name.localeCompare(b.name));
+          } else if (sortOrder === 'DESC') {
+            temp.sort((a, b) => b.name.localeCompare(a.name));
+          }
 
         setFilteredCompanies(temp);
         setPage(1);
-    }, [search, locationFilter, industryFilter, companies]);
+    }, [search, locationFilter, industryFilter, companies, sortOrder]);
 
     const start = (page - 1) * itemsPerPage;
     const paginatedCompanies = filteredCompanies.slice(start, start+itemsPerPage);
@@ -82,6 +88,8 @@ export const Home = () => {
                     setIndustryFilter={setIndustryFilter}
                     locations={locations}
                     industries={industries}
+                    sortOrder={sortOrder}
+                    setSortOrder={setSortOrder}
                  />
             </div>
             
